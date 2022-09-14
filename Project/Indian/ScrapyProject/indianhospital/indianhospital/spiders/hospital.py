@@ -7,10 +7,6 @@ class HospitalSpider(scrapy.Spider):
     # start_urls = ['https://www.medindia.net/patients/hospital_search/hospital_list.asp?utm_source=topnavigation&utm_medium=desktop&utm_content=&utm_campaign=medindia']
     start_urls = ['https://www.medindia.net/patients/hospital_search/a-i-i-m-s-hospital-delhi-60897-1.htm']
 
-    def start_requests(self):
-        
-        pass
-
     def parse(self, response):
         # self.logger.debug(response.text)
         print('-'*50)
