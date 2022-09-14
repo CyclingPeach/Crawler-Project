@@ -1,4 +1,4 @@
-# Scrapy settings for indianhospital project
+# Scrapy settings for scrapydownloadertest project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,21 +7,22 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'indianhospital'
+BOT_NAME = 'scrapydownloadertest'
 
-SPIDER_MODULES = ['indianhospital.spiders']
-NEWSPIDER_MODULE = 'indianhospital.spiders'
+SPIDER_MODULES = ['scrapydownloadertest.spiders']
+NEWSPIDER_MODULE = 'scrapydownloadertest.spiders'
+
 
 # 随机 UA
 DOWNLOADER_MIDDLEWARES = {
-    'indianhospital.middlewares.RandomUserAgentMiddleware':543,
+    'scrapydownloadertest.middlewares.RandomUserAgentMiddleware': 543,
 }
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'indianhospital (+http://www.yourdomain.com)'
+#USER_AGENT = 'scrapydownloadertest (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = False
+ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -49,14 +50,12 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'indianhospital.middlewares.IndianhospitalSpiderMiddleware': 543,
+#    'scrapydownloadertest.middlewares.ScrapydownloadertestSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'indianhospital.middlewares.IndianhospitalDownloaderMiddleware': 543,
-#}
+
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -67,7 +66,7 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'indianhospital.pipelines.IndianhospitalPipeline': 300,
+#    'scrapydownloadertest.pipelines.ScrapydownloadertestPipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
