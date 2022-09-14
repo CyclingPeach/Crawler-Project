@@ -16,8 +16,8 @@ class HospitalSpider(scrapy.Spider):
         """
         # print(len(response.xpath('//ul[@class="list-inline"]/div/div/li/a/@href').extract()))
         # print(response.xpath('//ul[@class="list-inline"]/div/div/li/a/@href').extract())
-        
 
+    def parse_all_hospital(self, response):
         """
             每个邦的所有 医院
             每页最多 25 家医院（翻页）
@@ -29,6 +29,8 @@ class HospitalSpider(scrapy.Spider):
         # next_page_href = 'https://www.medindia.net/patients/hospital_search/' + pagination
         # print(next_page_href)
 
+
+    def parse_hospital(self, response):
         """
             某家医院的具体信息，包括：
             名字、详细地址、所在市县、所在省份、手机、电话
