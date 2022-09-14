@@ -8,14 +8,13 @@ class HospitalSpider(scrapy.Spider):
     start_urls = ['https://www.medindia.net/patients/hospital_search/a-i-i-m-s-hospital-delhi-60897-1.htm']
 
     def parse(self, response):
-        # self.logger.debug(response.text)
-        print('-'*50)
         """
             印度各个邦的href
             一共 37 个邦
         """
-        # print(len(response.xpath('//ul[@class="list-inline"]/div/div/li/a/@href').extract()))
-        # print(response.xpath('//ul[@class="list-inline"]/div/div/li/a/@href').extract())
+        print('-'*50)
+        print(response.xpath('//ul[@class="list-inline"]/div/div/li/a/@href').extract())
+        print('-'*50)
 
     def parse_all_hospital(self, response):
         """
