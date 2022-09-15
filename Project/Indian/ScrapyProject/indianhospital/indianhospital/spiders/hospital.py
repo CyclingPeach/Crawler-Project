@@ -31,10 +31,10 @@ class HospitalSpider(scrapy.Spider):
         for hospital_href in articles.xpath('./div/h3[@class="vert-small-margin"]/a/@href').getall():
             yield scrapy.Request(url=hospital_href, callback=self.parse_hospital)   # 返回 某家医院的链接(href)
         # 翻页（一页仅有25家医院信息，而有些省医院数量超过25家，需要翻页）
-        # pagination = response.xpath('//ul[@class="pagination"]/li/a[contains(text(), "Next")]/@href').extract_first()
-        # next_page_href = 'https://www.medindia.net/patients/hospital_search/' + pagination
-        # print(next_page_href)
-        # yield scrapy.Request(url=next_page_href, callback=self.parse_province_hospital)
+        pagination = response.xpath('//ul[@class="pagination"]/li/a[contains(text(), "Next")]/@href').extract_first()
+        next_page_href = 'https://www.medindia.net/patients/hospital_search/' + pagination
+        print(next_page_href)
+        yield scrapy.Request(url=next_page_href, callback=self.parse_province_hospital)
 
 
     def parse_hospital(self, response):
