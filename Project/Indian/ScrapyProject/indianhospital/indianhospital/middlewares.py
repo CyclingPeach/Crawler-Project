@@ -32,9 +32,9 @@ class RandomUserAgentMiddleware():
 """ 随机 IP代理 """
 class ProxyMiddleware(object):   
     def process_request(self, request, spider):
-        print('-'*50)
+        print('-'*100)
         print('http://' + requests.get('http://127.0.0.1:5555/random').text.strip())
-        print('-'*50)
+        print('-'*100)
         request.meta['proxy'] = 'http://' + requests.get('http://127.0.0.1:5555/random').text.strip()
 
 class IndianhospitalSpiderMiddleware:

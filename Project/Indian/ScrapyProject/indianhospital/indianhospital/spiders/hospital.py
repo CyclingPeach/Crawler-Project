@@ -15,10 +15,10 @@ class HospitalSpider(scrapy.Spider):
         for div in divs:
             # province_name = div.xpath('./li/a/span/text()').get()     # 每个省的名字
             province_href = div.xpath('./li/a/@href').get()     # 每个省所对应的链接（href）
-            # yield scrapy.Request(url=province_href, callback=self.parse_province_hospital)
+            yield scrapy.Request(url=province_href, callback=self.parse_province_hospital)
         
         # 只采集一个省(邦)的医院信息
-        yield scrapy.Request(url=province_href, callback=self.parse_province_hospital)
+        # yield scrapy.Request(url=province_href, callback=self.parse_province_hospital)
 
             
     def parse_province_hospital(self, response):
