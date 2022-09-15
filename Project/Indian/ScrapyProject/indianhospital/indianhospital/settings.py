@@ -12,9 +12,23 @@ BOT_NAME = 'indianhospital'
 SPIDER_MODULES = ['indianhospital.spiders']
 NEWSPIDER_MODULE = 'indianhospital.spiders'
 
+PROXIES = [
+    'http://120.194.55.139:6969', 
+    'http://101.200.127.149:3129', 
+    'http://101.200.127.149:3129', 
+    'http://120.194.55.139:6969', 
+    'http://101.200.127.149:3129'
+    'http://101.200.127.149:3129',
+    'http://101.200.127.149:3129',
+    'http://120.194.55.139:6969'
+]
+
+
+
 # 随机 UA
 DOWNLOADER_MIDDLEWARES = {
     'indianhospital.middlewares.RandomUserAgentMiddleware':543,
+    'indianhospital.middlewares.ProxyMiddleware':542,
 }
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
