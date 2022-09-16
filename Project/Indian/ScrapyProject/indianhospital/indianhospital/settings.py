@@ -1,40 +1,14 @@
-# Scrapy settings for indianhospital project
-#
-# For simplicity, this file contains only settings considered important or
-# commonly used. You can find more settings consulting the documentation:
-#
-#     https://docs.scrapy.org/en/latest/topics/settings.html
-#     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-
 BOT_NAME = 'indianhospital'
 
 SPIDER_MODULES = ['indianhospital.spiders']
 NEWSPIDER_MODULE = 'indianhospital.spiders'
 
-PROXIES = [
-    'http://120.194.55.139:6969', 
-    'http://101.200.127.149:3129', 
-    'http://101.200.127.149:3129', 
-    'http://120.194.55.139:6969', 
-    'http://101.200.127.149:3129'
-    'http://101.200.127.149:3129',
-    'http://101.200.127.149:3129',
-    'http://120.194.55.139:6969'
-]
 
-
-
-# 随机 UA
 DOWNLOADER_MIDDLEWARES = {
-    'indianhospital.middlewares.RandomUserAgentMiddleware':543,
-    'indianhospital.middlewares.ProxyMiddleware':542,
+    'indianhospital.middlewares.RandomUserAgentMiddleware':543,     # 随机 UA
+    'indianhospital.middlewares.ProxyMiddleware':100,               # 代理池
 }
 
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'indianhospital (+http://www.yourdomain.com)'
-
-# Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)

@@ -1,7 +1,6 @@
 import random
 import requests
 from scrapy import signals
-from itemadapter import is_item, ItemAdapter
 
 """ 随机 User-Agent"""
 class RandomUserAgentMiddleware():
@@ -32,10 +31,10 @@ class RandomUserAgentMiddleware():
 """ 随机 IP代理 """
 class ProxyMiddleware(object):   
     def process_request(self, request, spider):
-        print('-'*100)
-        print('http://' + requests.get('http://127.0.0.1:5555/random').text.strip())
-        print('-'*100)
-        request.meta['proxy'] = 'http://' + requests.get('http://127.0.0.1:5555/random').text.strip()
+        proxy = 'http://' + requests.get('http://127.0.0.1:5555/random').text.strip()
+        verify_url = 'http://httpbin.org/get'
+        requests.get(verify_url)
+        request.meta['proxy'] = proxy
 
 class IndianhospitalSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
@@ -128,4 +127,3 @@ class IndianhospitalDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
-

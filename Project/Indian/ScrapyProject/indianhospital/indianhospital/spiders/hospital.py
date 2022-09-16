@@ -1,41 +1,37 @@
-from msilib.schema import Directory
-import scrapy
+import requests
+from scrapy import Request, Spider
 
-class HospitalSpider(scrapy.Spider):
+class HospitalSpider(Spider):
     name = 'hospital'
     allowed_domains = ['www.medindia.net']
     start_urls = ['https://www.medindia.net/patients/hospital_search/hospital_list.asp?utm_source=topnavigation&utm_medium=desktop&utm_content=&utm_campaign=medindia']
 
     def parse(self, response):
-        """
-            印度各个邦的href
-            一共 37 个邦
-        """
         divs = response.xpath('//ul[@class="list-inline"]/div/div')
         for div in divs:
             # province_name = div.xpath('./li/a/span/text()').get()     # 每个省的名字
             province_href = div.xpath('./li/a/@href').get()     # 每个省所对应的链接（href）
-            yield scrapy.Request(url=province_href, callback=self.parse_province_hospital)
-        
-        # 只采集一个省(邦)的医院信息
-        # yield scrapy.Request(url=province_href, callback=self.parse_province_hospital)
+            yield Request(
+                url=province_href, 
+                callback=self.parse_province_hospital
+            )
 
-            
     def parse_province_hospital(self, response):
-        """
-            每个邦的所有 医院
-            每页最多 25 家医院（需要翻页）
-        """
         # province_name = response.xpath('//div[@class="mi-container__fluid"]/h1/text()').re('Find a Hospital in (.*?)')    # 每个省(邦)的名字
-        articles = response.xpath('//article[contains(@class, "vert-medium-margin")]')
-        for hospital_href in articles.xpath('./div/h3[@class="vert-small-margin"]/a/@href').getall():
-            yield scrapy.Request(url=hospital_href, callback=self.parse_hospital)   # 返回 某家医院的链接(href)
-        # 翻页（一页仅有25家医院信息，而有些省医院数量超过25家，需要翻页）
-        pagination = response.xpath('//ul[@class="pagination"]/li/a[contains(text(), "Next")]/@href').extract_first()
-        next_page_href = 'https://www.medindia.net/patients/hospital_search/' + pagination
-        print(next_page_href)
-        yield scrapy.Request(url=next_page_href, callback=self.parse_province_hospital)
-
+        for hospital_href in response.xpath('//h3[@class="vert-small-margin"]/a/@href').getall():
+            yield Request(
+                url=hospital_href,
+                callback=self.parse_hospital
+            )
+        
+        # 翻页
+        # pagination = response.xpath('//ul[@class="pagination"]/li/a[contains(text(), "Next")]/@href').get()
+        # next_page_href = 'https://www.medindia.net/patients/hospital_search/' + pagination
+        # print(next_page_href)
+        # yield Request(
+        #     url=next_page_href,
+        #     callback=self.parse_province_hospital
+        # )
 
     def parse_hospital(self, response):
         """
