@@ -49,9 +49,6 @@ class HospitalSpider(scrapy.Spider):
         phone         = response.xpath('//div[@class="mi-bg-1"]/div/div/div[contains(@class, "report-content")]/p/b[contains(text(), "Phone")]/../span/text()').re_first('\s*(\w.*\w)\s*')
         mobile        = response.xpath('//div[@class="mi-bg-1"]/div/div/div[contains(@class, "report-content")]/p/b[contains(text(), "Mobile")]/../span/text()').re_first('\s*(\w.*\s)\s*')
 
-        # 存储到 hospital.jl文件中
-        # 命令 scrapy crawl hospital -o hospital.jl
-        # o（小o）对应是将新内容附加到现有文件中，建议使用
         yield {
             'hospital_name':hospital_name,
             'address':address,
