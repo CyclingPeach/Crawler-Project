@@ -23,7 +23,7 @@ class HospitalSpider(Spider):
                 url=hospital_href,
                 callback=self.parse_hospital
             )
-        
+    
         # 翻页
         # pagination = response.xpath('//ul[@class="pagination"]/li/a[contains(text(), "Next")]/@href').get()
         # next_page_href = 'https://www.medindia.net/patients/hospital_search/' + pagination
