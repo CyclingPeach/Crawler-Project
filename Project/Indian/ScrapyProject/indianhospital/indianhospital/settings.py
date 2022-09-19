@@ -3,10 +3,9 @@ BOT_NAME = 'indianhospital'
 SPIDER_MODULES = ['indianhospital.spiders']
 NEWSPIDER_MODULE = 'indianhospital.spiders'
 
-
 DOWNLOADER_MIDDLEWARES = {
     'indianhospital.middlewares.RandomUserAgentMiddleware':543,     # 随机 UA
-    'indianhospital.middlewares.ProxyMiddleware':100,               # 代理池
+    'indianhospital.middlewares.ProxyMiddleware':542,               # 代理池
 }
 
 ROBOTSTXT_OBEY = False

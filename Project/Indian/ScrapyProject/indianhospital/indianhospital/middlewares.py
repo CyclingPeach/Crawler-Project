@@ -32,8 +32,6 @@ class RandomUserAgentMiddleware():
 class ProxyMiddleware(object):   
     def process_request(self, request, spider):
         proxy = 'http://' + requests.get('http://127.0.0.1:5555/random').text.strip()
-        verify_url = 'http://httpbin.org/get'
-        requests.get(verify_url)
         request.meta['proxy'] = proxy
 
 class IndianhospitalSpiderMiddleware:

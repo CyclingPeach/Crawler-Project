@@ -17,7 +17,12 @@ class HospitalSpider(Spider):
                 callback=self.parse_province_hospital
             )
 
-    """结果：返回某一邦(省)的所有医院链接（翻页）"""
+    """
+    结果：
+        返回某一邦(省)的所有医院链接（翻页）
+        不翻页的话最多有 37(邦) * 25(医院数量/页) = 925 条医院数据（假设每个邦至少有一页(25家)的医院）
+        翻译的话
+    """
     def parse_province_hospital(self, response):
         # province_name = response.xpath('//div[@class="mi-container__fluid"]/h1/text()').re('Find a Hospital in (.*?)')    # 每个省(邦)的名字
         for hospital_href in response.xpath('//h3[@class="vert-small-margin"]/a/@href').getall():
