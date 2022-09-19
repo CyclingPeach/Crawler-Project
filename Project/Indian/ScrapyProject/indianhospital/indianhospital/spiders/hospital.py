@@ -6,6 +6,7 @@ class HospitalSpider(Spider):
     allowed_domains = ['www.medindia.net']
     start_urls = ['https://www.medindia.net/patients/hospital_search/hospital_list.asp?utm_source=topnavigation&utm_medium=desktop&utm_content=&utm_campaign=medindia']
 
+    """结果：返回所有邦(省)的链接"""
     def parse(self, response):
         divs = response.xpath('//ul[@class="list-inline"]/div/div')
         for div in divs:
@@ -16,6 +17,7 @@ class HospitalSpider(Spider):
                 callback=self.parse_province_hospital
             )
 
+    """结果：返回某一邦(省)的所有医院链接（翻页）"""
     def parse_province_hospital(self, response):
         # province_name = response.xpath('//div[@class="mi-container__fluid"]/h1/text()').re('Find a Hospital in (.*?)')    # 每个省(邦)的名字
         for hospital_href in response.xpath('//h3[@class="vert-small-margin"]/a/@href').getall():
@@ -33,11 +35,8 @@ class HospitalSpider(Spider):
         #     callback=self.parse_province_hospital
         # )
 
+    """返回每家医院的具体信息（名字、详细地址、医生、邮箱、手机、电话）"""
     def parse_hospital(self, response):
-        """
-            某家医院的具体信息，包括：
-            名字、详细地址、所在市县、所在省份、手机、电话
-        """
         hospital_name = response.xpath('//div[@class="mi-bg-1"]/../h2/text()').re_first('Address of (.*)')
         address       = ', '.join(response.xpath('//div[@class="mi-bg-1"]/div/div/div[contains(@class, "report-content")]/p[1]//text()').re('\s*(\w.*\w)\s*,*'))
         director      = response.xpath('//div[@class="mi-bg-1"]/div/div/div[contains(@class, "report-content")]/p/b[contains(text(), "Director")]/../text()').re_first('\s*(\w.*\w)\s*')
