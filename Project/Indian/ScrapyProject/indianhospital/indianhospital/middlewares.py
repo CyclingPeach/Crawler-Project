@@ -29,7 +29,7 @@ class RandomUserAgentMiddleware():
         request.headers['User-Agent'] = random.choice(self.user_agents)
 
 """ 随机 IP代理 """
-class ProxyMiddleware(object):   
+class ProxyMiddleware(object):
     def process_request(self, request, spider):
         proxy = 'http://' + requests.get('http://127.0.0.1:5555/random').text.strip()
         request.meta['proxy'] = proxy
