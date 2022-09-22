@@ -34,6 +34,7 @@ class ProxyMiddleware(object):
         proxy = 'http://' + requests.get('http://127.0.0.1:5555/random').text.strip()
         request.meta['proxy'] = proxy
 
+
 class IndianhospitalSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
@@ -79,6 +80,7 @@ class IndianhospitalSpiderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
 
 class IndianhospitalDownloaderMiddleware:
     # Not all methods need to be defined. If a method is not defined,

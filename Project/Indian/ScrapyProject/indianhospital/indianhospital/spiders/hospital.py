@@ -10,11 +10,13 @@ class HospitalSpider(Spider):
     def parse(self, response):
         divs = response.xpath('//ul[@class="list-inline"]/div/div')
         for div in divs:
-            # province_name = div.xpath('./li/a/span/text()').get()     # 每个省的名字
+            province_name = div.xpath('./li/a/span/text()').get()     # 每个省的名字
             province_href = div.xpath('./li/a/@href').get()     # 每个省所对应的链接（href）
             yield Request(
-                url=province_href, 
-                callback=self.parse_province_hospital
+                url  = province_href,
+                meta = {
+                    "proxy":'http://' + requests.get('http://127.0.0.1:5555/random').text.strip()},
+                callback = self.parse_province_hospital,
             )
 
     """
@@ -24,11 +26,13 @@ class HospitalSpider(Spider):
         翻译的话
     """
     def parse_province_hospital(self, response):
-        # province_name = response.xpath('//div[@class="mi-container__fluid"]/h1/text()').re('Find a Hospital in (.*?)')    # 每个省(邦)的名字
+        province_name = response.xpath('//div[@class="mi-container__fluid"]/h1/text()').re('Find a Hospital in (.*?)')    # 每个省(邦)的名字
         for hospital_href in response.xpath('//h3[@class="vert-small-margin"]/a/@href').getall():
             yield Request(
-                url=hospital_href,
-                callback=self.parse_hospital
+                url  = hospital_href,
+                meta = {
+                    "proxy":'http://' + requests.get('http://127.0.0.1:5555/random').text.strip()},
+                callback = self.parse_hospital,
             )
     
         # 翻页
@@ -36,7 +40,7 @@ class HospitalSpider(Spider):
         # next_page_href = 'https://www.medindia.net/patients/hospital_search/' + pagination
         # print(next_page_href)
         # yield Request(
-        #     url=next_page_href,
+        #     url = next_page_href,
         #     callback=self.parse_province_hospital
         # )
 

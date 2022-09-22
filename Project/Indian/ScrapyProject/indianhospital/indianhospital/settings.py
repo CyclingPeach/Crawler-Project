@@ -5,7 +5,7 @@ NEWSPIDER_MODULE = 'indianhospital.spiders'
 
 DOWNLOADER_MIDDLEWARES = {
     'indianhospital.middlewares.RandomUserAgentMiddleware':543,     # 随机 UA
-    'indianhospital.middlewares.ProxyMiddleware':542,               # 代理池
+    # 'indianhospital.middlewares.ProxyMiddleware':200,               # 代理池
 }
 
 ROBOTSTXT_OBEY = False
