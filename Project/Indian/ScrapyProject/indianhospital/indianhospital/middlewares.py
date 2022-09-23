@@ -1,5 +1,6 @@
 import random
 import requests
+import logging
 from scrapy import signals
 
 """ 随机 User-Agent"""
@@ -27,12 +28,42 @@ class RandomUserAgentMiddleware():
     
     def process_request(self, request, spider):
         request.headers['User-Agent'] = random.choice(self.user_agents)
+        # request.headers['']
+        # 'sec-ch-ua'         : '"Google Chrome";v="105", "Not)A;Brand";v="8", "Chromium";v="105"',
+        # 'sec-ch-ua-mobile'  : '?0',
+        # 'sec-ch-ua-platform': '"Windows"',
+
+
 
 """ 随机 IP代理 """
 class ProxyMiddleware(object):
+    def __init__(self, proxy_url):
+        self.logger = logging.getLogger(__name__)
+        self.proxy_url = proxy_url
+    
+    def get_random_proxy(self):
+        try:
+            response = requests.get(self.proxy_url)
+            if response.status_code == 200:
+                proxy = response.text
+                return proxy
+        except requests.ConnectionError:
+            return False
+    
     def process_request(self, request, spider):
-        proxy = 'http://' + requests.get('http://127.0.0.1:5555/random').text.strip()
-        request.meta['proxy'] = proxy
+        if request.meta.get('retry_times'):
+            proxy = self.get_random_proxy()
+            if proxy:
+                uri = 'https://{proxy}'.format(proxy=proxy)
+                self.logger.debug('使用代理 ' + proxy)
+                request.meta['proxy'] = uri
+    
+    @classmethod
+    def from_crawler(cls, crawler):
+        settings = crawler.settings
+        return cls(
+            proxy_url = settings.get('PROXY_URL')
+        )
 
 
 class IndianhospitalSpiderMiddleware:
