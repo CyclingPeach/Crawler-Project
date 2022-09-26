@@ -16,26 +16,24 @@ class HospitalSpider(Spider):
         for hospital in self.hospitals:
             hospital_name = hospital['hospital_name']
             hospital_href = hospital['hospital_href']
-            try:
-                res = requests.get('http://localhost:5555/random')
-                if res.status_code == 200:
-                    proxy = 'http://'+res.text
-                    yield Request(
-                        url      = hospital_href,
-                        meta     = {
-                            'proxy'                : proxy,
-                            'name_by_hospital_col' : hospital_name,
-                        },
-                        callback = self.parse_detail_info,
-                    )
-            except:
-                pass
+            res = requests.get('http://localhost:5555/random')
+            if res.status_code == 200:
+                proxy = 'http://' + res.text
+                
+                yield Request(
+                    url      = hospital_href,
+                    meta     = {
+                        'proxy'                : proxy,
+                        'name_by_hospital_col' : hospital_name,
+                    },
+                    callback = self.parse_detail_info,
+                )
+
         
     def parse_detail_info(self, response):
         if response.status == 200:
             name_by_hospital_col = response.meta['name_by_hospital_col']
             print('*'*50)
-            print(response.meta['proxy'])
             print(name_by_hospital_col)
             print('-'*50)
             # hospital_name = response.xpath('//div[@class="mi-bg-1"]/../h2/text()').re_first('Address of (.*)')
