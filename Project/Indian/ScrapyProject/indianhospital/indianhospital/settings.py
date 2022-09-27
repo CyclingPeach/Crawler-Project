@@ -5,9 +5,10 @@ NEWSPIDER_MODULE = 'indianhospital.spiders'
 
 DOWNLOADER_MIDDLEWARES = {
     'indianhospital.middlewares.RandomUserAgentMiddleware':543,     # 随机 UA
-    # 'indianhospital.middlewares.ProxyMiddleware':555,               # 代理池
+    'indianhospital.middlewares.ProxyDownloaderMiddleware':100,               # 快代理
 }
-
+#注意路径
+EXTENSIONS = {
+    'indianhospital.myextend.MyExtend': 300,
+}
 ROBOTSTXT_OBEY = False
-
-PROXY_URL = 'http://localhost:5555/random'

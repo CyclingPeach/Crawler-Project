@@ -1,7 +1,6 @@
 import random
-import requests
-import logging
 from scrapy import signals
+from .myextend import pro
 
 """ 随机 User-Agent"""
 class RandomUserAgentMiddleware():
@@ -36,34 +35,18 @@ class RandomUserAgentMiddleware():
 
 
 """ 随机 IP代理 """
-class ProxyMiddleware(object):
-    def __init__(self, proxy_url):
-        self.logger = logging.getLogger(__name__)
-        self.proxy_url = proxy_url
-    
-    def get_random_proxy(self):
-        try:
-            response = requests.get(self.proxy_url)
-            if response.status_code == 200:
-                proxy = response.text
-                return proxy
-        except requests.ConnectionError:
-            return False
-    
+class ProxyDownloaderMiddleware:
     def process_request(self, request, spider):
-        if request.meta.get('retry_times'):
-            proxy = self.get_random_proxy()
-            if proxy:
-                uri = 'https://{proxy}'.format(proxy=proxy)
-                self.logger.debug('使用代理 ' + proxy)
-                request.meta['proxy'] = uri
-    
-    @classmethod
-    def from_crawler(cls, crawler):
-        settings = crawler.settings
-        return cls(
-            proxy_url = settings.get('PROXY_URL')
-        )
+        proxy = random.choice(pro.proxy_list)
+
+        # 用户名密码认证(私密代理/独享代理)
+        username = "m15955990735"
+        password = ""
+        request.meta['proxy'] = "http://%(user)s:%(pwd)s@%(proxy)s/" % {"user": username, "pwd": password, "proxy": proxy}
+
+        # 白名单认证(私密代理/独享代理)
+        # request.meta['proxy'] = "http://%(proxy)s/" % {"proxy": proxy}
+        return None
 
 
 class IndianhospitalSpiderMiddleware:
